@@ -18,23 +18,33 @@ If your population of queries dies out, you lose.
 
 ## Installation
 
+After the installation procedure, the following requirements should be satisfied:
+
+- *Elasticsearch 7.10.1-1*
+- *Python 3.9.6*
+- *elasticsearch (pip) 7.14.0*
+
+Enter the project directory.
+
 Install Python dependencies:
 
 ```
 make setup
 ```
 
-Install [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html).
+Install [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html),
+and enable and start the server,
+per instructions on their website for your OS.
 
-Then enable and start Elasticsearch server as a service:
+It should look something like this:
 
 ```
 $ sudo systemctl enable elasticsearch.service
 $ sudo systemctl start elasticsearch.service
 ```
 
-Without any custom configuration, this initializes an index server on `localhost:9200` by default.
-This game assumes the default configuration by default.
+Without any custom configuration, this initializes an index server on <http://localhost:9200> by default.
+This game assumes the default configuration per default.
 
 Check all options:
 
@@ -67,19 +77,30 @@ It also computes the score, or *fitness*, of each query against the secret targe
 
 ## Game rules
 
+The game starts with one single query, initialized with a single random positive term.
+From this seed query, you must evolve a healthy population of queries that match the secret target sentence well.
+
+### Queries
+
 This is what a query looks like:
 
 ```
-[+ideas +furiously -colorful -wake]
+1. 0.123456 [+ideas +furiously -colorful -wake]
 ```
 
-**"+"-prefix** indicates a positive term.
-It **must** be in the target sentence for the query to match.
+The **first column** (*1.*) indicates its rank among all queries in the population.
 
-**"-"-prefix** indicates a negative term.
-It **must not** be in the target sentence for the query to match.
+The **second column** (*0.123456*) indicates its current matching score against the target sentence.
 
-In each round, you can inspect
+**"+"-prefixes** indicate a positive term.
+It **must** be in the target sentence for the whole query to match.
+
+**"-"-prefixes** indicate a negative term.
+It **must not** be in the target sentence for the whole query to match.
+
+### Rounds
+
+In each round, you can inspect:
 
 - the vocabulary,
 - the current population of queries,
@@ -88,33 +109,34 @@ In each round, you can inspect
 
 The goal is to maximize the average population score.
 
-Each round allows you to select one of the following evolutionary actions on the population:
+### Evolutionary actions
 
----
+Each round allows you to select one of the following evolutionary actions on the population:
 
 ***Love Is In The Air***
 
-... but for now just clone each individual.
+... but for now just clone each query once, doubling the population size.
 
 ***The Weak Shall Perish***
 
-Remove least fit individuals from population.
+Remove all queries whose scores match the worst score.
 
 ***Deus Ex Machina***
 
-Remove random individuals from population.
+Remove random queries from the population.
 
 ***Gamma Party***
 
-Apply random mutations throughout population.
+Apply random mutations throughout the population.
+For each query, either a term will be removed or a random new term will be added with a random prefix (+/-).
 
 ***This Town Is Too Small For The Both Of Us***
 
-Remove duplicate genotypes.
-
----
+Remove duplicate queries.
 
 Then the selected action is applied to the population and new queries and scores are computed.
+
+### End
 
 The game ends after the specified number of rounds, of when your population dies out because your selective pressure was a tad to harsh.
 
