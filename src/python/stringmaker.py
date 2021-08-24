@@ -35,7 +35,7 @@ class StringMaker():
     def actions(actions: List) -> str:
         return "\n".join(
                 [
-                    "[{}] {}\n\t{}".format(
+                    "[{}] {}\n\t{}\n".format(
                         i,
                         color.BOLD \
                                 + actions[i].title \
