@@ -92,22 +92,23 @@ The **first column** (*1.*) indicates its rank among all queries in the populati
 
 The **second column** (*0.123456*) indicates its current matching score against the target sentence.
 
-**"+"-prefixes** indicate a positive term.
-It **must** be in the target sentence for the whole query to match.
+**"+"-prefixes** indicate positive terms.
+They **must** be in the target sentence for the whole query to match.
 
-**"-"-prefixes** indicate a negative term.
-It **must not** be in the target sentence for the whole query to match.
+**"-"-prefixes** indicate negative terms.
+They **must not** be in the target sentence for the whole query to match.
 
 ### Rounds
 
 In each round, you can inspect:
 
-- the vocabulary,
-- the current population of queries,
-- their scores against the secret target sentence
-- the average score across the population.
+- the *vocabulary*,
+- the *current population* of queries,
+- their *scores* against the secret target sentence,
+- and the *average score* across the population.
 
 The goal is to maximize the average population score.
+This means that you must both *evolve strong queries* and *eliminate the weak queries*.
 
 ### Evolutionary actions
 
