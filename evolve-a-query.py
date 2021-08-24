@@ -73,27 +73,27 @@ def _actions(queries):
     return [
             Action(
                 title = "Love Is In The Air",
-                descr = "... but for now just clone each individual.",
+                descr = "... but for now just clone each query once, doubling the population size.",
                 func = queries.recombine,
                 ),
             Action(
                 title = "The Weak Shall Perish",
-                descr = "Remove least fit individuals from population.",
+                descr = "Remove all queries whose scores match the worst score.",
                 func = queries.select,
                 ),
             Action(
                 title = "Deus Ex Machina",
-                descr = "Remove random individuals from population.",
+                descr = "Remove random queries from the population.",
                 func = queries.random_purge,
                 ),
             Action(
                 title = "Gamma Party",
-                descr = "Apply random mutations throughout population.",
+                descr = "Apply random mutations throughout the population. For each query, either a term will be removed or a random new term will be added with a random prefix (+/-).",
                 func = queries.mutate,
                 ),
             Action(
                 title = "This Town Is Too Small For The Both Of Us",
-                descr = "Remove duplicate genotypes.",
+                descr = "Remove duplicate queries.",
                 func = queries.remove_duplicates,
                 ),
             ]
