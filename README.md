@@ -113,6 +113,8 @@ The goal is to maximize the average population score.
 
 Each round allows you to select one of the following evolutionary actions on the population:
 
+---
+
 ***Love Is In The Air***
 
 ... but for now just clone each query once, doubling the population size.
@@ -134,7 +136,11 @@ For each query, either a term will be removed or a random new term will be added
 
 Remove duplicate queries.
 
+---
+
 Then the selected action is applied to the population and new queries and scores are computed.
+
+**Tipp for beginners**: First create a population of clones, then apply mutations, then remove the bad mutations.
 
 ### End
 
