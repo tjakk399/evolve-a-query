@@ -4,15 +4,15 @@ A command-line game about evolution and information retrieval.
 
 ---
 
-In this game, you play a god who controls he environment of a strange world where the only species is **boolean queries**.
+In this game, you play a god who controls the environment of a strange world where the only species is **boolean queries**.
 
 Their **evolutionary fitness** depends on their match with a specific random sentence from a corpus of unique sentences (the "language" of this world).
 
-The goal is to **evolve a population of boolean queries** that matches this sentence well before the rounds are over.
+The goal is to **evolve a population of boolean queries** that match this sentence well before the rounds are over.
 
-You do not know the sentence and you cannot manipulate the queries directly.
+You **do not know the sentence**.
 
-You only know the vocabulary of this language, and your only tools are environmental factors of which you can chose one per round.
+You also **cannot manipulate the queries** directly, only indirectly via selection pressure, mediated by specific evolutionary actions.
 
 If your population of queries dies out, you lose.
 
@@ -157,6 +157,7 @@ make test
 - Parameterize evolutionary actions.
 - Implement sexual reproduction of queries (for action "Love Is In The Air").
 - Implement more complex search than via boolean queries. Requires more sophisticated evolutionary actions.
+- Increase complexity of sentences, with corresponding linguistic preprocessing.
 
 ### Unit tests
 
