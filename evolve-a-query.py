@@ -16,8 +16,7 @@ from src.python.query import Query
 from src.python.stringmaker import StringMaker
 
 logging.basicConfig(
-        encoding = "utf-8",
-        level = logging.WARNING,
+        level = logging.ERROR
         )
 
 def parsed_args():
