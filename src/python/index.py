@@ -8,6 +8,7 @@ from elasticsearch.helpers import bulk
 from query import Query
 from vocabulary import Vocabulary
 
+
 class Index():
     def __init__(
             self,
@@ -32,44 +33,32 @@ class Index():
         self.ensure_index()
 
     def ensure_index(self):
-        request_body = {
-            'settings' : {
-                'number_of_shards': 2,
-                'number_of_replicas': 1
-                },
-            'mappings': {
-                'properties': {
-                    'full_text': {
-                        'type': 'text'
-                        },
-                    }
-                }
-            }
-
         try:
-            logging.debug("Creating index")
+            self.es.indices.delete(
+                index = self.name,
+                ignore_unavailable = True
+                )
+
             self.es.indices.create(
-                    index = self.name,
-                    body = request_body
-                    )
-        except elasticsearch.exceptions.RequestError:
-            logging.debug("Deleting existing index")
-            logging.debug(
-                    self.es.indices.delete(
-                        index = self.name,
-                        )
-                    )
+                index = self.name,
+                body = {
+                    'settings' : {
+                        'number_of_shards': 2,
+                        'number_of_replicas': 1
+                        },
+                    'mappings': {
+                        'properties': {
+                            'full_text': {
+                                'type': 'text'
+                                },
+                            }
+                        }
+                    }
+                )
 
-        finally:
-            try:
-                self.es.indices.create(
-                        index = self.name,
-                        body = request_body
-                        )
-
-            except elasticsearch.exceptions.RequestError as e:
-                logging.error(str(e))
-                raise e
+        except Exception as e:
+            logging.ERROR(str(e))
+            exit(1)
 
     def _bulk_data_generator(self, texts: List[str]):
         for text in texts:
