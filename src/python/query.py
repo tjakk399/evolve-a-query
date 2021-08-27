@@ -13,6 +13,21 @@ from individual import Individual
 random.seed(10)
 
 class Query(Individual):
+    """Class for managing a query as individual.
+
+    :param musts: List of positive terms,
+        defaults to None
+    :type musts: List[str], optional
+
+    :param must_nots: List of negative terms,
+        defaults to None
+    :type must_nots: List[str], optional
+
+    :param fitness: Fitness score,
+        defaults to 0.0
+    :type fitness: float, optional
+    """
+
     def __init__(
             self,
             musts: List[str]=[],
@@ -33,7 +48,11 @@ class Query(Individual):
         # Phenotype
         self._update_body()
 
-    def _update_body(self):
+    def _update_body(self) -> None:
+        """Updates query body with current terms.
+
+        :rtype: None
+        """
         self.body = {
                 'query': {
                     'bool': {
@@ -71,11 +90,23 @@ class Query(Individual):
                 indent = 4
                 )
 
-    def size(self):
+    def size(self) -> int:
+        """Returns total number of terms.
+
+        :rtype: int
+        """
         return len(self._musts) \
                 + len(self._must_nots)
 
-    def update_with_explanation(self, explanation) -> None:
+    def update_with_explanation(self, explanation: Dict) -> None:
+        """Updates query with explanation from Elasticsearch.
+
+        :param explanation: Result from Elasticsearch explanation call
+        :type explanation: Dict
+
+        :rtype: None
+        """
+        assert('value' in explanation['explanation'])
         self._last_explanation = explanation
         self.fitness = explanation['explanation']['value']
 
@@ -83,7 +114,20 @@ class Query(Individual):
     def _random_element(
             terms: List,
             blacklist: Optional[List] = None
-            ):
+            ) -> Any:
+        """Returns random element from list.
+
+        :param terms: List
+        :type terms: List
+
+        :param blacklist: List of elements to not return,
+            defaults to None
+        :type blacklist: List, optional
+
+        :rtype: Any
+
+        :raises Exception: if there are elements in ``terms``
+        """
         if len(terms) == 0:
             raise Exception()
         else:
@@ -125,6 +169,13 @@ class Query(Individual):
                         )
 
     def mutate(self, words: List[str]) -> None:
+        """Mutates itself.
+
+        :param words: List of words from which to draw new terms
+        :type words: List[str]
+
+        :rtype: None
+        """
         assert(len(words) > 0)
 
         self._mutate_terms(words)
@@ -136,6 +187,14 @@ class Query(Individual):
         self.n_mutations += 1
 
     def recombine(self, other_query: Query) -> Query:
+        """Recombines genotype with genotype from another query.
+
+        :param other_query: Other :class:`Query` object
+        :type other_query: Query
+
+        :return: New offspring query
+        :rtype: Query
+        """
         # TODO
         pass
 
@@ -144,6 +203,16 @@ class Query(Individual):
             n_hits: int,
             n_total: int,
             ) -> None:
+        """Updates fitness score. If ``n_total`` is 0, updates with 0.0.
+
+        :param n_hits: Number of hits
+        :type n_hits: int
+
+        :param n_total: Number of total
+        :type n_total: int
+
+        :rtype: None
+        """
         assert(n_hits <= n_total)
 
         if n_total == 0:
