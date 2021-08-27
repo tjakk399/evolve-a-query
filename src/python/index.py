@@ -49,8 +49,6 @@ class Index():
     def ensure_index(self) -> None:
         """Creates or recreates index.
 
-        :rtype: None
-
         :raises Exception: if index creation failed
         """
         try:
@@ -193,10 +191,10 @@ class Index():
         :param id: ID of document in index
         :type id: int
 
+        :raises Exception: if ID does not exist in index
+
         :return: Elasticsearch response
         :rtype: Dict
-
-        :raises Exception: if ID does not exist in index
         """
         try:
             return self.es.explain(

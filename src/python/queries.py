@@ -30,7 +30,7 @@ class Queries(Population):
     :type words: List[str]
 
     :param queries: List of :class:`Query` objects to initialize population,
-    defaults to empty list
+        defaults to empty list
     :type queries: List[Query]
     """
 
@@ -86,8 +86,6 @@ class Queries(Population):
 
         :param mode: Strategy for producing offspring from queries, defaults to `RecombinationMode.CLONE`
         :type mode: Member of enum :class:`RecombinationMode`, optional
-
-        :rtype: None
         """
 
         if mode == RecombinationMode.CLONE:
@@ -133,8 +131,6 @@ class Queries(Population):
 
     def mutate(self) -> None:
         """Applies mutations across population of queries.
-
-        :rtype: None
         """
         new_queries = []
 
@@ -147,8 +143,6 @@ class Queries(Population):
 
     def select(self) -> None:
         """Reduces population of queries to fittest members.
-
-        :rtype: None
         """
         self.queries = Queries._without_lowest(
                 self.queries,
@@ -161,8 +155,6 @@ class Queries(Population):
         :param k: Number of queries to be removed,
             defaults to 1
         :type k: int
-
-        :rtype: None
 
         :raises ValueError:
         """
@@ -193,8 +185,6 @@ class Queries(Population):
 
     def remove_duplicates(self) -> None:
         """Removes duplicate querys from population.
-
-        :rtype: None
         """
         new_queries = []
         seen_queries = {}

@@ -10,7 +10,6 @@ import copy
 
 from individual import Individual
 
-random.seed(10)
 
 class Query(Individual):
     """Class for managing a query as individual.
@@ -34,6 +33,8 @@ class Query(Individual):
             must_nots: List[str]=[],
             fitness: float = 0.0,
             ):
+        """Constructor method
+        """
         super().__init__()
 
         # Last index explanation w.r.t. target sentence.
@@ -50,8 +51,6 @@ class Query(Individual):
 
     def _update_body(self) -> None:
         """Updates query body with current terms.
-
-        :rtype: None
         """
         self.body = {
                 'query': {
@@ -103,8 +102,6 @@ class Query(Individual):
 
         :param explanation: Result from Elasticsearch explanation call
         :type explanation: Dict
-
-        :rtype: None
         """
         assert('value' in explanation['explanation'])
         self._last_explanation = explanation
@@ -124,9 +121,10 @@ class Query(Individual):
             defaults to None
         :type blacklist: List, optional
 
-        :rtype: Any
-
         :raises Exception: if there are elements in ``terms``
+
+        :return: Random element from ``terms``
+        :rtype: Any
         """
         if len(terms) == 0:
             raise Exception()
@@ -143,6 +141,11 @@ class Query(Individual):
                 return terms_shuffled[0]
 
     def _mutate_terms(self, words: List[str]) -> None:
+        """Mutates terms.
+
+        :param words: List of words from which to draw potential new terms
+        :param type: List[str]
+        """
         random.choice(
                 [
                     lambda l: l.append(
@@ -169,12 +172,10 @@ class Query(Individual):
                         )
 
     def mutate(self, words: List[str]) -> None:
-        """Mutates itself.
+        """Mutates query body.
 
-        :param words: List of words from which to draw new terms
+        :param words: List of words from which to draw potential new terms
         :type words: List[str]
-
-        :rtype: None
         """
         assert(len(words) > 0)
 
@@ -210,8 +211,6 @@ class Query(Individual):
 
         :param n_total: Number of total
         :type n_total: int
-
-        :rtype: None
         """
         assert(n_hits <= n_total)
 
