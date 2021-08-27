@@ -191,7 +191,7 @@ class Queries(Population):
             logging.ERROR(str(e))
             raise e
 
-    def remove_duplicates(self):
+    def remove_duplicates(self) -> None:
         """Removes duplicate querys from population.
 
         :rtype: None
